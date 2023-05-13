@@ -8,8 +8,12 @@ export class AppService {
     return this.data;
   }
 
-  create(data: any): void {
+  create(data: any): any {
     this.data.push(data);
-    return;
+    return data;
+  }
+
+  clearDatabase(): void {
+    this.data = [];
   }
 }
