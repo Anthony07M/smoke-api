@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model sensor {
+  id   String        @id @default(cuid())
+  name String
+  data sensor_data[]
+}
+
+model sensor_data {
+  id          String        @id @default(cuid())
+  timestamp   DateTime      @default(now())
+  value       Int
+  fire_alerts fire_alerts[]
+  sensor      sensor?       @relation(fields: [sensorId], references: [id])
+  sensorId    String?
+}
+
+model fire_alerts {
+  id            String      @id @default(cuid())
+  timestamp     DateTime    @default(now())
+  location      String
+  gravity       String
+  sensor        sensor_data @relation(fields: [sensor_dataId], references: [id])
+  sensor_dataId String
+}
