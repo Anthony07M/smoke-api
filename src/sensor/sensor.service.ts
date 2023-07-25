@@ -31,7 +31,13 @@ export class SensorService {
   async findAll() {
     return await this.prismaService.sensor.findMany({
       include: {
-        data: true,
+        data: {
+          select: {
+            id: true,
+            value: true,
+            timestamp: true,
+          },
+        },
       },
     });
   }
@@ -39,6 +45,15 @@ export class SensorService {
   async findOne(sensorId: string) {
     return await this.prismaService.sensor.findUnique({
       where: { id: sensorId },
+      include: {
+        data: {
+          select: {
+            id: true,
+            value: true,
+            timestamp: true,
+          },
+        },
+      },
     });
   }
 }
